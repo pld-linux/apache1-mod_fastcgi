@@ -7,7 +7,7 @@ Summary(uk):	FastCGI - б╕льш швидка верс╕я CGI
 Name:		apache1-mod_%{mod_name}
 # NOTE: remember about apache-mod_fastcgi.spec when messing here
 Version:	2.4.2
-Release:	1.1
+Release:	1.2
 License:	distributable
 Group:		Networking/Daemons
 Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
@@ -74,7 +74,7 @@ else
 	echo "Run \"/etc/rc.d/init.d/apache start\" to start apache HTTP daemon."
 fi
 
-%preun
+%postun
 if [ "$1" = "0" ]; then
 	if [ -f /var/lock/subsys/apache ]; then
 		/etc/rc.d/init.d/apache restart 1>&2
