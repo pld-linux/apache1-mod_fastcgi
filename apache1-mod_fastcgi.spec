@@ -13,7 +13,6 @@ Group:		Networking/Daemons
 Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
 # Source0-md5:	e994414304b535cb99e10b7d1cad1d1e
 Patch0:		apache-mod_%{mod_name}-allow-uid-gid.patch
-Source1:	%{name}.conf
 URL:		http://www.FastCGI.com/
 BuildRequires:	%{apxs}
 BuildRequires:	apache1-devel >= 1.3.1
