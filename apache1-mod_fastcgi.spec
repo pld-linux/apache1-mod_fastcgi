@@ -7,7 +7,7 @@ Summary(uk):	FastCGI - б╕льш швидка верс╕я CGI
 Name:		apache1-mod_%{mod_name}
 # NOTE: remember about apache-mod_fastcgi.spec when messing here
 Version:	2.4.2
-Release:	1.4
+Release:	1.5
 License:	distributable
 Group:		Networking/Daemons
 Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
@@ -87,5 +87,5 @@ fi
 %doc docs/LICENSE.TERMS CHANGES docs/*.html
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_%{mod_name}.conf
 %attr(755,root,root) %{_pkglibdir}/*.so
-%attr(770,root,http) %{_pkglogdir}/fastcgi
-%attr(770,root,http) %{_pkglogdir}/fastcgi/dynamic
+%dir %attr(770,root,http) %{_pkglogdir}/fastcgi
+%dir %attr(770,root,http) %{_pkglogdir}/fastcgi/dynamic
