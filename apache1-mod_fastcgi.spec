@@ -7,12 +7,13 @@ Summary(uk):	FastCGI - б╕льш швидка верс╕я CGI
 Name:		apache1-mod_%{mod_name}
 # NOTE: remember about apache-mod_fastcgi.spec when messing here
 Version:	2.4.2
-Release:	2
+Release:	3
 License:	distributable
 Group:		Networking/Daemons
 Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
 # Source0-md5:	e994414304b535cb99e10b7d1cad1d1e
 Patch0:		%{name}-allow-uid-gid.patch
+Patch1:		%{name}-socketdir.patch
 URL:		http://www.FastCGI.com/
 BuildRequires:	%{apxs}
 BuildRequires:	apache1-devel >= 1.3.33-2
@@ -22,7 +23,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
 %define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
-%define		_pkglogdir	%(%{apxs} -q PREFIX 2>/dev/null)/logs
+%define		_socketdir	/var/run/apache/fastcgi
 
 %description
 This 3rd party module provides support for the FastCGI protocol.
@@ -52,13 +53,14 @@ FastCGI - розширення CGI, яке нада╓ можлив╕сть створювати
 %prep
 %setup -q -n mod_%{mod_name}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{apxs} -o mod_%{mod_name}.so -c *.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}/conf.d,%{_pkglogdir}/fastcgi/dynamic}
+install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}/conf.d,%{_socketdir}/dynamic}
 
 install mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
 
@@ -87,5 +89,5 @@ fi
 %doc docs/LICENSE.TERMS CHANGES docs/*.html
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_%{mod_name}.conf
 %attr(755,root,root) %{_pkglibdir}/*.so
-%dir %attr(770,root,http) %{_pkglogdir}/fastcgi
-%dir %attr(770,root,http) %{_pkglogdir}/fastcgi/dynamic
+%dir %attr(770,root,http) %{_socketdir}
+%dir %attr(770,root,http) %{_socketdir}/dynamic
