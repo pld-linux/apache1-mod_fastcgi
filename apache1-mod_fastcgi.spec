@@ -57,7 +57,7 @@ FastCGI - розширення CGI, яке нада╓ можлив╕сть створювати
 %patch1 -p1
 
 %build
-%{apxs} -o mod_%{mod_name}.so -c *.c
+%{apxs} -S CC="%{__cc}" -o mod_%{mod_name}.so -c *.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
