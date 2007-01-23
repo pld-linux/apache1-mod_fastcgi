@@ -7,7 +7,7 @@ Summary(uk):	FastCGI - б╕льш швидка верс╕я CGI
 Name:		apache1-mod_%{mod_name}
 # NOTE: remember about apache-mod_fastcgi.spec when messing here
 Version:	2.4.2
-Release:	3
+Release:	4
 License:	distributable
 Group:		Networking/Daemons
 Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
@@ -19,7 +19,7 @@ BuildRequires:	%{apxs}
 BuildRequires:	apache1-devel >= 1.3.33-2
 BuildRequires:	libtool
 BuildRequires:	rpmbuild(macros) >= 1.268
-Requires:	apache1 >= 1.3.33-2
+Requires:	apache1(EAPI)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
