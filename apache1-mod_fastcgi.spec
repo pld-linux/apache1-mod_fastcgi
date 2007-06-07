@@ -15,7 +15,7 @@ Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
 Patch0:		%{name}-allow-uid-gid.patch
 Patch1:		%{name}-socketdir.patch
 URL:		http://www.FastCGI.com/
-BuildRequires:	%{apxs}
+BuildRequires:	apache1-apxs
 BuildRequires:	apache1-devel >= 1.3.33-2
 BuildRequires:	libtool
 BuildRequires:	rpmbuild(macros) >= 1.268
