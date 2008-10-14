@@ -6,15 +6,17 @@ Summary(ru.UTF-8):	FastCGI - более быстрая версия CGI
 Summary(uk.UTF-8):	FastCGI - більш швидка версія CGI
 Name:		apache1-mod_%{mod_name}
 # NOTE: remember about apache-mod_fastcgi.spec when messing here
-Version:	2.4.2
-Release:	4
+Version:	2.4.6
+Release:	1
 License:	distributable
 Group:		Networking/Daemons
-Source0:	http://www.FastCGI.com/dist/mod_%{mod_name}-%{version}.tar.gz
-# Source0-md5:	e994414304b535cb99e10b7d1cad1d1e
+Source0:	http://www.fastcgi.com/dist/mod_%{mod_name}-%{version}.tar.gz
+# Source0-md5:	a21a613dd5dacf4c8ad88c8550294fed
 Patch0:		%{name}-allow-uid-gid.patch
 Patch1:		%{name}-socketdir.patch
-URL:		http://www.FastCGI.com/
+Patch2:		%{name}-stderr-buf.patch
+Patch3:		%{name}-segv-onload.patch
+URL:		http://www.fastcgi.com/
 BuildRequires:	apache1-devel >= 1.3.39
 BuildRequires:	libtool
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -54,6 +56,8 @@ FastCGI - розширення CGI, яке надає можливість ст�
 %setup -q -n mod_%{mod_name}-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %{apxs} -S CC="%{__cc}" -o mod_%{mod_name}.so -c *.c
