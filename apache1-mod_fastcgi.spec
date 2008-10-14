@@ -16,6 +16,7 @@ Patch0:		%{name}-allow-uid-gid.patch
 Patch1:		%{name}-socketdir.patch
 Patch2:		%{name}-stderr-buf.patch
 Patch3:		%{name}-segv-onload.patch
+Patch4:		%{name}-apache22.patch
 URL:		http://www.fastcgi.com/
 BuildRequires:	apache1-devel >= 1.3.39
 BuildRequires:	libtool
@@ -24,7 +25,7 @@ Requires:	apache1(EAPI)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
-%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
+%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)/conf.d
 %define		_socketdir	/var/run/apache/fastcgi
 
 %description
@@ -58,18 +59,19 @@ FastCGI - розширення CGI, яке надає можливість ст�
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{apxs} -S CC="%{__cc}" -o mod_%{mod_name}.so -c *.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}/conf.d,%{_socketdir}/dynamic}
+install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir},%{_socketdir}/dynamic}
 
 install mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
 
 echo 'LoadModule %{mod_name}_module	modules/mod_%{mod_name}.so' > \
-	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d/90_mod_%{mod_name}.conf
+	$RPM_BUILD_ROOT%{_sysconfdir}/90_mod_%{mod_name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -85,7 +87,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc docs/LICENSE.TERMS CHANGES docs/*.html
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/conf.d/*_mod_%{mod_name}.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/*_mod_%{mod_name}.conf
 %attr(755,root,root) %{_pkglibdir}/*.so
 %dir %attr(770,root,http) %{_socketdir}
 %dir %attr(770,root,http) %{_socketdir}/dynamic
